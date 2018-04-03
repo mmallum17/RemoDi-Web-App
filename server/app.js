@@ -18,11 +18,13 @@ mongoose.connection.on('error', function(err) {
   process.exit(-1); // eslint-disable-line no-process-exit
 });
 
-// Setup server
+// Setup server and Socket.io
 var app = express();
 var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 require('./config/express').default(app);
 require('./routes').default(app);
+require('./socket')(io);
 
 // Start server
 function startServer() {
